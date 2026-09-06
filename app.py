@@ -4,15 +4,17 @@ import yt_dlp
 import os
 
 app = Flask(__name__)
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/health')
+def health():
+    return "OK"
 CORS(app)
 
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
-
-@app.route('/')
-def home():
-    return send_from_directory('.', 'index.html')
-
 @app.route('/download', methods=['POST'])
 def download():
     data = request.get_json()
